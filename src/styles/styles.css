@@ -18,3 +18,12 @@ nav {
 .AuthorsPage{
   padding: 30px 0;
 }
+
+.panel{
+  margin-top: 20px;  
+}
+
+.a__backLink{
+  display: block;
+  margin-top: 20px;
+}

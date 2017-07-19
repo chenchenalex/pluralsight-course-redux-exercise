@@ -1,7 +1,7 @@
 import * as types from './actionTypes';
 import courseApi from '../api/mockCourseApi';
 import {beginAjaxCall, ajaxCallError} from './ajaxStatusActions';
-import {loadAuthors} from './authorActions'
+import {loadAuthors} from './authorActions';
 
 export function loadCoursesSuccess(courses) {
   return { type: types.LOAD_COURSES_SUCCESS, courses};
@@ -28,17 +28,6 @@ export function loadCourses() {
       throw(error);
     });
   };
-}
-
-export function loadCourseAndAuthor(){
-  return function(dispatch){
-    Promise.all([
-      dispatch(loadCourses()),
-      dispatch(loadAuthors())
-    ]).then(()=>{
-      dispatch(loadCourseAndAuthorsSuccess())
-    })
-  }
 }
 
 export function saveCourse(course) {
