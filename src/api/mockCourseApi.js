@@ -32,7 +32,7 @@ const courses = [
     id: "career-reboot-for-developer-mind",
     title: "Becoming an Outlier: Reprogramming the Developer Mind",
     watchHref: "http://www.pluralsight.com/courses/career-reboot-for-developer-mind",
-    authorId: "cory-house",
+    authorId: "dan-wahlin",
     length: "2:30",
     category: "Career"
   },

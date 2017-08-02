@@ -4,8 +4,9 @@ import App from './components/App';
 import HomePage from './components/home/HomePage';
 import AboutPage from './components/about/AboutPage';
 import CoursesPage from './components/course/CoursesPage';
-import AuthorsPage from './components/authors/AuthorsPage';
-import ManageAuthorPage from './components/authors/ManageAuthorPage';
+import AuthorsListPage from './components/authors/AuthorsListPage';
+import EditAuthorPage from './components/authors/EditAuthorPage';
+import ManageAuthorDetail from './components/authors/ManageAuthorDetail';
 import ManageCoursePage from './components/course/ManageCoursePage'; //eslint-disable-line import/no-named-as-default
 
 export default (
@@ -14,8 +15,10 @@ export default (
     <Route path="courses" component={CoursesPage} />
     <Route path="course" component={ManageCoursePage} />
     <Route path="course/:id" component={ManageCoursePage} />
-    <Route path="authors" component={AuthorsPage} />
-    <Route path="author/:id" component={ManageAuthorPage} />
+    <Route path="authors" component={AuthorsListPage} />
+    <Route path="author/edit/:id" component={EditAuthorPage} />
+    <Route path="author/create" component={EditAuthorPage} />
+    <Route path="author/:id" component={ManageAuthorDetail} />
     <Route path="about" component={AboutPage} />
   </Route>
 );
