@@ -4,10 +4,18 @@ import * as actions from "../../actions/authorActions.js";
 import { bindActionCreators } from "redux";
 import { browserHistory, Link } from "react-router";
 
-class AuthorsPage extends React.Component {
+class AuthorsListPage extends React.Component {
+  redirectToAddAuthorPage = ()=>{
+    browserHistory.push('/author/create');
+  }
+   
   render() {
     return (
       <div className="AuthorsPage">
+        <button 
+        className="addAuthor btn btn-primary"
+        onClick={this.redirectToAddAuthorPage}>Add New Author</button>
+
         <ul className="list-group">
           {this.props.authors.map(author =>
             <li className="list-group-item" key={author.id}>
@@ -25,7 +33,7 @@ class AuthorsPage extends React.Component {
   }
 }
 
-AuthorsPage.propTypes = {
+AuthorsListPage.propTypes = {
   authors: PropTypes.array.isRequired,
   courses: PropTypes.array.isRequired
 };
@@ -65,4 +73,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AuthorsPage);
+export default connect(mapStateToProps, mapDispatchToProps)(AuthorsListPage);

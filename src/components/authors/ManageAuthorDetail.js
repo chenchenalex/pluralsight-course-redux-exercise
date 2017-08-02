@@ -1,22 +1,15 @@
-import React, { Component } from "react";
+import React, { Component, PropTypes} from "react";
 import { connect } from "react-redux";
 import * as actions from "../../actions/authorActions.js";
 import { bindActionCreators } from "redux";
 import AuthorDetail from "./AuthorDetail";
 
-class ManageAuthorPage extends Component {
-  constructor(props, context) {
-    super(props, context);
-
-    this.state = {
-        authors: []
-    };
-  }
+class ManageAuthorDetail extends Component {
 
   render() {
     return (
       <div className="manage-author-container">
-        {<AuthorDetail author={this.props.author}/>}
+        {<AuthorDetail author={this.props.author} courses={this.props.courses}/>}
       </div>
     );
   }
@@ -28,18 +21,25 @@ function mapStateToProps(state, ownProps) {
         id : '',
         firstName : '',
         lastName : ''
-    };
+    }, courses = [];
 
-    if(state && state.authors.length > 0){
-        author = state.authors.filter(author => author.id === ownProps.params.id)[0];
+    if(state && state.authors.length > 0 && state.courses.length > 0){
+        const id = ownProps.params.id;
+        author = state.authors.filter(author => author.id === id)[0];
+        courses = state.courses.filter(course => course.authorId === id);
     }
 
   // state coming from redux store
   return {
     author,
-    courses: state.courses
+    courses
   };
 }
+
+ManageAuthorDetail.propTypes = {
+  author: PropTypes.object.isRequired,
+  courses: PropTypes.array.isRequired
+};
 
 function mapDispatchToProps(dispatch) {
   return {
@@ -47,4 +47,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ManageAuthorPage);
+export default connect(mapStateToProps, mapDispatchToProps)(ManageAuthorDetail);

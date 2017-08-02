@@ -11,7 +11,7 @@ export class ManageCoursePage extends React.Component {
     super(props, context);
 
     // short term state lives within component
-    this.state = {
+    this.state = { 
       course: Object.assign({}, props.course),
       errors: {},
       saving: false
