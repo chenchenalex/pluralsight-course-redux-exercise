@@ -1,62 +1,91 @@
-import React, {Component, PropTypes} from 'react';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import * as authorActions from '../../actions/authorActions';
-import AuthorForm from './AuthorForm';
+import React, { Component, PropTypes } from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import * as authorActions from "../../actions/authorActions";
+import AuthorForm from "./AuthorForm";
+import toastr from 'toastr';
 
 class EditAuthorPage extends Component {
-    constructor(props, context){
-        super(props, context);
+  constructor(props, context) {
+    super(props, context);
 
-        this.state = {
-            author : Object.assign({}, this.props.author)
-        };
-    }
+    this.state = {
+      author: Object.assign({}, this.props.author),
+      saving: false
+    };
+  }
 
-    updateAuthorState = (e) => {
-        const field = e.target.name;
-        let author = this.state.author;
-        author[field] = e.target.value;
-        this.setState({author});
-    }
+  updateAuthorState = e => {
+    const field = e.target.name;
+    let author = this.state.author;
+    author[field] = e.target.value;
+    this.setState({ author });
+  };
 
-    saveAuthor = (e) => {
-        e.preventDefault();
+  validateForm = e => {
+    e.preventDefault();
 
-        this.props.actions.saveAuthor(this.state.author);
-    }
+    const { firstName, lastName } = this.state.author;
 
-    render(){
-        return (
-            <AuthorForm 
-            author={this.props.author} 
-            onChange = {this.updateAuthorState}
-            onSave = {this.saveAuthor}
-            />
-        );
-    }
+    if (!firstName || !lastName ) return;
 
+    this.saveAuthor();
+  };
+
+  redirect = () => {
+    this.setState({saving: false});
+     toastr.success('Author updated');
+     this.context.router.push('/authors'); // TODO: what's this?
+  };
+
+  saveAuthor = () => {
+      
+    this.setState({saving: true});
+
+    this.props.actions.saveAuthor(this.state.author)
+        .then(data => this.redirect())
+        .catch(error => {
+            toastr.error(error);
+            this.setState({error, saving: false});
+        });
+  };
+  
+  render() {
+    return (
+      <AuthorForm
+        author={this.props.author}
+        onChange={this.updateAuthorState}
+        onSave={this.validateForm}
+        saving={this.state.saving}
+      />
+    );
+  }
 }
 
 EditAuthorPage.propTypes = {
-    author: PropTypes.object.isRequired,
-    actions: PropTypes.object.isRequired
+  author: PropTypes.object.isRequired,
+  actions: PropTypes.object.isRequired,
+  ajaxCallsInProgress: PropTypes.number
 };
 
-function mapStateToProps (state, ownProps){
-    const authorId = ownProps.params.id;
+EditAuthorPage.contextTypes = {
+    router: PropTypes.object
+};
 
-    if(state && state.authors){
-        return {
-            author: authorId ? state.authors.filter(author => author.id === authorId) : {}
-        };
-    }
+function mapStateToProps(state, ownProps) {
+  const authorId = ownProps.params.id;
+  if (state && state.authors) {
+    return {
+      author: authorId ? state.authors.filter(author => author.id === authorId) : {},
+      ajaxCallsInProgress: state.ajaxCallsInProgress
+    };
+  }
 }
 
-function mapDispatchToProps (dispatch){
-    return {
-        actions: bindActionCreators(authorActions, dispatch)
-    };
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(authorActions, dispatch)
+  };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditAuthorPage);

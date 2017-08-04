@@ -5,10 +5,11 @@ import { bindActionCreators } from "redux";
 import { browserHistory, Link } from "react-router";
 
 class AuthorsListPage extends React.Component {
+
   redirectToAddAuthorPage = ()=>{
     browserHistory.push('/author/create');
   }
-   
+
   render() {
     return (
       <div className="AuthorsPage">
@@ -16,8 +17,8 @@ class AuthorsListPage extends React.Component {
         className="addAuthor btn btn-primary"
         onClick={this.redirectToAddAuthorPage}>Add New Author</button>
 
-        <ul className="list-group">
-          {this.props.authors.map(author =>
+         <ul className="list-group">
+          {this.props.authors && this.props.authors.map(author =>
             <li className="list-group-item" key={author.id}>
               <Link to={`/author/${author.id}`}>
                 {author.firstName} {author.lastName}
@@ -27,7 +28,7 @@ class AuthorsListPage extends React.Component {
               </span>
             </li>
           )}
-        </ul>
+        </ul> 
       </div>
     );
   }
@@ -38,32 +39,10 @@ AuthorsListPage.propTypes = {
   courses: PropTypes.array.isRequired
 };
 
-// Add number Of Videos to author object
-function mapAuthorData(authors, courses) {
-  let mappedAuthors = [...authors];
-
-  mappedAuthors.forEach(author => {
-    const authorId = author.id;
-    author.numberOfVideos = courses.filter(
-      course => course.authorId === authorId
-    ).length;
-  });
-
-  return mappedAuthors;
-}
-
 function mapStateToProps(state, ownProps) {
-  let authors = [];
-
-  // check state availability HERE!
-  if (state && state.authors.length > 0 && state.courses.length > 0) {
-    authors = mapAuthorData(state.authors, state.courses);
-  }
-
-  // state coming from redux store
   return {
-    authors: state.authors,
-    courses: state.courses
+    authors : state.authors,
+    courses : state.courses
   };
 }
 

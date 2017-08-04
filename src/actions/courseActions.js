@@ -24,6 +24,7 @@ export function loadCourses() {
     dispatch(beginAjaxCall());
     return courseApi.getAllCourses().then(courses => {
       dispatch(loadCoursesSuccess(courses));
+      return Promise.resolve(courses);
     }).catch(error => {
       throw(error);
     });
