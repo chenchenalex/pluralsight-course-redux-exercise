@@ -6,13 +6,6 @@ const AuthorForm = ({author, onChange, onSave, saving}) => {
     return (
     <form>
       <h1>Manage Author</h1>
-      {author.id && 
-      <TextInput
-        name="id"
-        label="ID"
-        value={author.title}
-        onChange={onChange}/>
-        }
 
       <TextInput
         name="firstName"
@@ -32,6 +25,7 @@ const AuthorForm = ({author, onChange, onSave, saving}) => {
         value={saving ? 'Saving...' : 'Save'}
         className="btn btn-primary"
         onClick={onSave}/>
+        
     </form>
     );
 };
@@ -42,5 +36,6 @@ AuthorForm.propTypes = {
   onChange: React.PropTypes.func.isRequired,
   saving: React.PropTypes.bool
 };
+
 
 export default AuthorForm;

@@ -36,7 +36,7 @@ class AuthorApi {
         if (author.lastName.length < minAuthorNameLength) {
           reject(`Last Name must be at least ${minAuthorNameLength} characters.`);
         }
-
+        
         if (author.id) {
           const existingAuthorIndex = authors.findIndex(a => a.id == author.id);
           authors.splice(existingAuthorIndex, 1, author);
@@ -61,12 +61,13 @@ class AuthorApi {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         const indexOfAuthorToDelete = authors.findIndex(author => {
-          author.authorId == authorId;
+          return author.id == authorId;
         });
+
         authors.splice(indexOfAuthorToDelete, 1);
 
         db.setData('authors', authors);
-        
+
         resolve();
       }, delay);
     });

@@ -1,5 +1,6 @@
 import * as types from '../actions/actionTypes';
 import initialState from './initialState';
+import { mapAuthorData } from '../utils/dataMapping';
 
 export default function courseReducer(state = initialState.courses, action) {
   switch (action.type) {

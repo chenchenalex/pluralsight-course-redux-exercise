@@ -5,7 +5,6 @@ import { bindActionCreators } from "redux";
 import { browserHistory, Link } from "react-router";
 
 class AuthorsListPage extends React.Component {
-
   redirectToAddAuthorPage = ()=>{
     browserHistory.push('/author/create');
   }

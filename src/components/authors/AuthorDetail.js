@@ -1,7 +1,10 @@
 import React, {PropTypes} from "react";
-import { Link } from "react-router";
+import { browserHistory, Link } from "react-router";
+import Modal from '../common/Modal';
+import { DeleteAuthorModalData } from '../../contents/modalContents';
+import bootstrap from 'bootstrap';
 
-const AuthorDetailPage = ({ author , courses}) => {
+const AuthorDetailPage = ({ author , courses, onDelete}) => {
   const courseList = () => {
     return (
       <table className="table courseList">
@@ -27,6 +30,10 @@ const AuthorDetailPage = ({ author , courses}) => {
     );
   };
 
+  const redirectToEditAuthor = ()=>{
+    browserHistory.push(`/author/edit/${author.id}`);
+  };
+
   return (
     <div>
       <Link to="/authors" className="a__backLink">Back to Authors list > </Link>
@@ -49,16 +56,25 @@ const AuthorDetailPage = ({ author , courses}) => {
             </tr>
           </tbody>
         </table>
-
       </div>
-        {courseList()}
+      {courseList()}
+
+      <div className="btn-group btn__author-actions">
+        <button className="btn btn-primary" onClick={redirectToEditAuthor}>Edit</button>
+        <button className="btn btn-danger" data-toggle="modal" data-target="#deleteModal">Delete</button>
+      </div>
+
+      <Modal  id="deleteModal"
+              action={onDelete}
+              messages={DeleteAuthorModalData}/>
     </div>
   );
 };
 
 AuthorDetailPage.propTypes = {
   author: PropTypes.object.isRequired,
-  courses: PropTypes.array.isRequired
+  courses: PropTypes.array.isRequired,
+  onDelete: PropTypes.func
 };
 
 export default AuthorDetailPage;

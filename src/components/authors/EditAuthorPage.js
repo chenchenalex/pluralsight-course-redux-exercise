@@ -36,28 +36,30 @@ class EditAuthorPage extends Component {
     this.setState({saving: false});
      toastr.success('Author updated');
      this.context.router.push('/authors'); // TODO: what's this?
-  };
+  }
 
   saveAuthor = () => {
       
     this.setState({saving: true});
-
     this.props.actions.saveAuthor(this.state.author)
         .then(data => this.redirect())
         .catch(error => {
             toastr.error(error);
             this.setState({error, saving: false});
         });
-  };
-  
+  }
+
   render() {
     return (
-      <AuthorForm
-        author={this.props.author}
-        onChange={this.updateAuthorState}
-        onSave={this.validateForm}
-        saving={this.state.saving}
-      />
+        <div>
+        <AuthorForm
+            author={this.state.author}
+            onChange={this.updateAuthorState}
+            onSave={this.validateForm}
+            saving={this.state.saving}
+        />
+
+      </div>
     );
   }
 }
@@ -74,12 +76,15 @@ EditAuthorPage.contextTypes = {
 
 function mapStateToProps(state, ownProps) {
   const authorId = ownProps.params.id;
-  if (state && state.authors) {
+
+  if (state.authors.length > 0 && authorId) {
     return {
-      author: authorId ? state.authors.filter(author => author.id === authorId) : {},
+      author: state.authors.filter(author => author.id === authorId)[0],
       ajaxCallsInProgress: state.ajaxCallsInProgress
     };
   }
+
+  return {author: {}, ajaxCallsInProgress: state.ajaxCallsInProgress};
 }
 
 function mapDispatchToProps(dispatch) {

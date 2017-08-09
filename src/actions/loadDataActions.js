@@ -12,17 +12,16 @@ function loadData(){
     ]);
 }
 
-function mapAuthorData(dataArray){
-  return {
-    type: types.ALL_DATA_LOADED,
-    data: dataArray
-  };
-}
-
 store.dispatch(loadData()).then((data)=>{
     // after all data finish loading
     store.dispatch(mapAuthorData(data));
 });
 
+export function mapAuthorData(dataArray){
+  return {
+    type: types.ALL_DATA_LOADED,
+    data: dataArray
+  };
+}
 
 export default store;

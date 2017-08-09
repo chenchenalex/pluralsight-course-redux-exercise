@@ -24,10 +24,18 @@ nav {
 }
 
 .a__backLink{
-  display: block;
+  display: inline-block;
   margin-top: 20px;
 }
 
 .courseList {
   margin-top: 50px;
+}
+
+button.addAuthor {
+  margin-bottom: 20px;
+}
+
+.btn__author-actions button{
+  width: 100px;
 }
